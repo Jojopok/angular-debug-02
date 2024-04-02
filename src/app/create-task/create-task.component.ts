@@ -1,16 +1,21 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Task } from '../models/task.model';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-create-task',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, RouterOutlet, ReactiveFormsModule],
   templateUrl: './create-task.component.html',
   styleUrl: './create-task.component.css'
 })
 export class CreateTaskComponent {
 
-  Output newTaskEmit: EventEmitter<Task> = new EventEmitter();
+  constructor(private formBuilder: FormBuilder) {}
+
+  @Output() newTask: EventEmitter<Task> = new EventEmitter();
 
   taskForm = this.formBuilder.group({
     content: ['', Validators.required],
@@ -18,7 +23,7 @@ export class CreateTaskComponent {
   });
 
   sendTaskToApp() {
-    this.newTaskEmit.emit(this.taskForm.value as Task);
+    this.newTask.emit(this.taskForm.value as Task);
     this.taskForm.reset({ content: '', done: false });
   }
 }

@@ -4,6 +4,7 @@ import { CreateTaskComponent } from './create-task/create-task.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskSearchComponent } from './task-search/task-search.component';
 import { CommonModule } from '@angular/common';
+import { Task } from './models/task.model';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  taskList: Tache[] = [];
-  filteredTaskList: Tache[] = [];
+  taskList: Task[] = [];
+  
+  filteredTaskList: Task[] = [];
 
-  newTaskReceive(task: any) {
+  newTaskReceive(task: Task) {
     this.taskList.push(task);
-    this.filteredTaskList = this.taskList;
+    this.filteredTaskList = this.taskList.slice();
   }
 
   searchedTaskReceive(searchedTerm: string) {
